@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FoggyLand — Правила</title>
+    <title>FoggyLand — Правила сервера</title>
     <style>
         * {
             margin: 0;
@@ -20,9 +20,8 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            backdrop-filter: blur(2px);
         }
 
         .rules-card {
@@ -31,20 +30,17 @@
             padding: 2rem 2rem 2.5rem;
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(100, 80, 20, 0.3);
-            transition: transform 0.2s ease;
         }
 
         h1 {
             font-size: 3rem;
             font-weight: 800;
             text-align: center;
-            letter-spacing: -0.5px;
             background: linear-gradient(135deg, #3b6e2b, #aa8e1a);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .tagline {
@@ -57,90 +53,6 @@
             width: auto;
             margin: 0 auto 1.8rem auto;
             padding-bottom: 0.4rem;
-            letter-spacing: 0.3px;
-        }
-
-        .sub {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 500;
-            background: #eef3dbcc;
-            display: inline-block;
-            width: auto;
-            padding: 0.4rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            backdrop-filter: blur(2px);
-        }
-
-        .rule-section {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            margin: 2rem 0;
-        }
-
-        .rule-item {
-            background: #fefce8;
-            border-left: 8px solid #a6c86e;
-            padding: 1rem 1.5rem;
-            border-radius: 1.2rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-        }
-
-        .rule-item:hover {
-            transform: translateX(6px);
-            background: #fffff0;
-            border-left-color: #e3b43c;
-        }
-
-        .rule-title {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #2c4723;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .rule-desc {
-            color: #2d3e26;
-            line-height: 1.45;
-            margin-top: 0.25rem;
-            font-size: 1rem;
-        }
-
-        .rule-detail {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: #6f5e2e;
-            background: #f3f7e6;
-            display: inline-block;
-            padding: 0.2rem 1rem;
-            border-radius: 20px;
-        }
-
-        .ban-note {
-            background: #fff2cf;
-            padding: 1rem 1.5rem;
-            border-radius: 1.2rem;
-            margin-top: 1rem;
-            font-weight: 500;
-            text-align: center;
-            border: 1px solid #e6c88a;
-        }
-
-        .footer-note {
-            text-align: center;
-            margin-top: 2.5rem;
-            font-size: 0.85rem;
-            color: #4f5d40;
-            background: rgba(235, 245, 210, 0.7);
-            padding: 0.8rem;
-            border-radius: 2rem;
-            backdrop-filter: blur(2px);
         }
 
         .badge {
@@ -151,6 +63,98 @@
             font-weight: 700;
             text-transform: uppercase;
             color: #2c4822;
+            display: inline-block;
+            margin: 0 0.3rem 0.6rem 0.3rem;
+        }
+
+        .rule-section {
+            margin: 2rem 0;
+        }
+
+        .rule-category {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #3b6e2b;
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid #c2b56b;
+        }
+
+        .rule-item {
+            background: #fefce8;
+            border-left: 6px solid #a6c86e;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1rem;
+            margin-bottom: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .rule-item:hover {
+            transform: translateX(4px);
+            background: #fffff0;
+            border-left-color: #e3b43c;
+        }
+
+        .rule-title {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #2c4723;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .rule-number {
+            color: #8b6b2a;
+            font-family: monospace;
+            font-weight: 700;
+        }
+
+        .rule-text {
+            color: #2d3e26;
+            line-height: 1.45;
+        }
+
+        .rule-punishment {
+            margin-top: 0.3rem;
+            font-size: 0.8rem;
+            color: #a52a1a;
+            background: #fff2cf;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .rule-note {
+            margin-top: 0.3rem;
+            font-size: 0.75rem;
+            color: #6f5e2e;
+            background: #f3f7e6;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+        }
+
+        .ban-note {
+            background: #fff2cf;
+            padding: 1rem 1.5rem;
+            border-radius: 1.2rem;
+            margin: 1.5rem 0;
+            font-weight: 500;
+            text-align: center;
+            border: 1px solid #e6c88a;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #4f5d40;
+            background: rgba(235, 245, 210, 0.7);
+            padding: 0.8rem;
+            border-radius: 2rem;
         }
 
         hr {
@@ -161,70 +165,20 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 1rem 0.8rem;
-            }
             .rules-card {
-                padding: 1.2rem 1rem 1.8rem;
-                border-radius: 1.5rem;
+                padding: 1rem;
             }
             h1 {
                 font-size: 2rem;
             }
-            .tagline {
-                font-size: 1rem;
-                margin-bottom: 1rem;
-                white-space: normal;
-                word-break: keep-all;
-            }
-            .badge {
-                font-size: 0.65rem;
-                padding: 0.2rem 0.6rem;
-                margin-bottom: 0.5rem;
-                display: inline-block;
+            .rule-category {
+                font-size: 1.3rem;
             }
             .rule-title {
-                font-size: 1.1rem;
-                gap: 0.4rem;
-            }
-            .rule-desc {
                 font-size: 0.9rem;
             }
-            .rule-item {
-                padding: 0.8rem 1rem;
-            }
-            .rule-detail {
-                font-size: 0.75rem;
-                margin-top: 0.6rem;
-            }
-            .ban-note {
+            .rule-text {
                 font-size: 0.85rem;
-                padding: 0.8rem 1rem;
-            }
-            .footer-note {
-                font-size: 0.75rem;
-                padding: 0.6rem;
-            }
-            .container {
-                padding: 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.7rem;
-            }
-            .rules-card {
-                padding: 1rem 0.8rem 1.5rem;
-            }
-            .rule-title {
-                font-size: 1rem;
-            }
-            .rule-desc {
-                font-size: 0.85rem;
-            }
-            .badge {
-                font-size: 0.6rem;
             }
         }
     </style>
@@ -236,95 +190,160 @@
         <div style="text-align: center;">
             <div class="tagline">🍃 ванильный SMP • честная игра • уютная атмосфера</div>
         </div>
-        <div style="text-align: center; margin-bottom: 1.8rem;">
-            <span class="badge">🤝 никаких донат-привилегий</span>&nbsp;&nbsp;
-            <span class="badge">🎙️ голосовой чат</span>&nbsp;&nbsp;
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span class="badge">🤝 никаких донат-привилегий</span>
+            <span class="badge">🎙️ голосовой чат</span>
             <span class="badge">⚔️ PvP по желанию</span>
         </div>
 
+        <!-- ========== 1. ИГРОВОЙ ПРОЦЕСС ========== -->
+        <div class="rule-category">📌 1. Игровой процесс</div>
         <div class="rule-section">
+
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>✅</span> 1. Уважение к другим
+                <div class="rule-title"><span class="rule-number">1.1.</span> <span class="rule-text">Использование и хранение запрещенного ПО</span></div>
+                <div class="rule-note">Исключение: разрешено хранение, если ПО работает только на версии, несовместимой с версией сервера.</div>
+                <div class="rule-item" style="margin-left: 1rem; margin-top: 0.5rem;">
+                    <div class="rule-title"><span class="rule-number">1.1.1.</span> <span class="rule-text">Использование и хранение читов и чит-клиентов</span></div>
+                    <div class="rule-punishment">⚡ Наказание: вечный бан</div>
                 </div>
-                <div class="rule-desc">
-                    Запрещены оскорбления, токсичность, буллинг, травля и любые формы неуважительного поведения.
+                <div class="rule-item" style="margin-left: 1rem; margin-top: 0.5rem;">
+                    <div class="rule-title"><span class="rule-number">1.1.2.</span> <span class="rule-text">Использование и хранение иного запрещённого ПО</span></div>
+                    <div class="rule-punishment">⚡ Наказание: удаление ПО (блокировка доступа) либо бан от 3 до 7 дней</div>
                 </div>
-                <div class="rule-detail">🔨 Наказание: от предупреждения до перманентного бана (по ситуации).</div>
             </div>
 
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>🏗️</span> 2. Запрещён грифер / кража
-                </div>
-                <div class="rule-desc">
-                    Не ломай и не забирай чужие постройки/сундуки без разрешения. У нас ванильный стиль, но за порядком следим.
-                </div>
-                <div class="rule-detail">⚠️ Гриферство → <strong>бан от 3 дней до перманента</strong>.</div>
+                <div class="rule-title"><span class="rule-number">1.2.</span> <span class="rule-text">Причинение массового ущерба; бандитизм; многократные грабежи; разбойные нападения на базы (гриферство); подготовка и озвучивание намерений об этом</span></div>
+                <div class="rule-punishment">⚡ Наказание: вечный бан + возмещение ущерба (откат)</div>
             </div>
 
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>🚫</span> 3. Читерство, X-Ray, авто-клики
-                </div>
-                <div class="rule-desc">
-                    Запрещены любые моды/ресурспаки, дающие преимущество (в том числе x‑ray, автокликер, боты). 
-                    Разрешены OptiFine, Sodium, голосовые моды.
-                </div>
-                <div class="rule-detail">⚡ Античит активен. Нарушение → <strong>бан от 7 дней до перманента</strong>.</div>
+                <div class="rule-title"><span class="rule-number">1.3.</span> <span class="rule-text">Воровство; разрушение чужих строений; порча ландшафта; убийство чужих мобов; вандализм; иное причинение ущерба (не злостного/массового характера)</span></div>
+                <div class="rule-punishment">⚡ Наказание: штраф (возврат/компенсация) + бан от 1 до 14 дней</div>
             </div>
 
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>🧱</span> 4. Лаг-машины / нагрузка на сервер
-                </div>
-                <div class="rule-desc">
-                    Чрезмерно нагружающие фермы и редстоун-схемы могут быть ограничены. Следим за TPS.
-                </div>
-                <div class="rule-detail">📉 При систематическом нарушении — предупреждение / кик / бан.</div>
+                <div class="rule-title"><span class="rule-number">1.4.</span> <span class="rule-text">Дюп; багоюзинг; использование брешей в плагинах/ядре/Minecraft; участие в схемах получения нелегальных ресурсов</span></div>
+                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
+                <div class="rule-note">Исключение: дюп зажжённых ТНТ (в виде сущностей)</div>
+            </div>
+            <div class="rule-item" style="margin-left: 1rem;">
+                <div class="rule-title"><span class="rule-number">1.4.1.</span> <span class="rule-text">Намеренное замалчивание известной уязвимости (соучастие)</span></div>
+                <div class="rule-punishment">⚡ Наказание: бан 7 дней</div>
+            </div>
+            <div class="rule-item" style="margin-left: 1rem;">
+                <div class="rule-title"><span class="rule-number">1.4.2.</span> <span class="rule-text">Использование и хранение дюпанных вещей (при известном происхождении)</span></div>
+                <div class="rule-punishment">⚡ Наказание: бан 14 дней</div>
             </div>
 
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>🎮</span> 5. PvP
-                </div>
-                <div class="rule-desc">
-                    PvP только по взаимному согласию. Используй команду /pvp on/off.
-                </div>
-                <div class="rule-detail">🛡️ Принуждение к PvP или убийство несогласных → бан.</div>
+                <div class="rule-title"><span class="rule-number">1.5.</span> <span class="rule-text">Покушение на стабильность работы сервера; организация подрывной деятельности/рейдов; взлом аккаунтов; DDoS-атаки и подобное</span></div>
+                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
             </div>
 
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>📢</span> 6. Чат
-                </div>
-                <div class="rule-desc">
-                    Запрещён спам, флуд, капс, провокации, реклама других серверов. Общаемся культурно.
-                </div>
-                <div class="rule-detail">🤐 За нарушение — мут от 10 минут до перманента.</div>
+                <div class="rule-title"><span class="rule-number">1.6.</span> <span class="rule-text">Строительство «лаг-машин»</span></div>
+                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
+            </div>
+            <div class="rule-item" style="margin-left: 1rem;">
+                <div class="rule-title"><span class="rule-number">1.6.1.</span> <span class="rule-text">Накапливание большого количества сущностей; строительство/прогрузка тяжёлых редстоун-схем, вызывающих нагрузку (без цели навредить)</span></div>
+                <div class="rule-punishment">⚡ Наказание: предупреждение или бан 1–3 дня + устранение причины лагов</div>
+            </div>
+            <div class="rule-item" style="margin-left: 1rem;">
+                <div class="rule-title"><span class="rule-number">1.6.2.</span> <span class="rule-text">Прогрузка большого количества сущностей или тяжёлых редстоун-схем в AFK-режиме при TPS &lt; 17</span></div>
+                <div class="rule-punishment">⚡ Наказание: предупреждение или бан 1–3 часа</div>
             </div>
 
             <div class="rule-item">
-                <div class="rule-title">
-                    <span>💬</span> 7. Помощь и адекватность
+                <div class="rule-title"><span class="rule-number">1.7.</span> <span class="rule-text">Регистрация, покупка и передача твинков (вторых аккаунтов); постоянная игра с неосновного аккаунта</span></div>
+                <div class="rule-punishment">⚡ Наказание: вечный бан основного аккаунта и всех твинков</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.8.</span> <span class="rule-text">Вычисление, использование и распространение сида игрового мира</span></div>
+                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.9.</span> <span class="rule-text">Любая внутриигровая коммерческая деятельность, связанная с реальными деньгами</span></div>
+                <div class="rule-punishment">⚡ Наказание: бан от 14 дней</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.10.</span> <span class="rule-text">Нападение на игрока (PvP только по взаимному согласию)</span></div>
+                <div class="rule-punishment">⚡ Наказание: по подпунктам</div>
+                <div style="margin-left: 1rem; margin-top: 0.5rem;">
+                    <div class="rule-title"><span class="rule-number">1.10.1.</span> Непредусмотренное PvP на общественных мероприятиях/местах скопления → предупреждение или бан до 3 ч</div>
+                    <div class="rule-title"><span class="rule-number">1.10.2.</span> Нанесение урона без согласия → бан до 24 ч</div>
+                    <div class="rule-title"><span class="rule-number">1.10.2.1.</span> Намеренное покушение на убийство; снос тотема → бан 12–24 ч</div>
+                    <div class="rule-title"><span class="rule-number">1.10.3.</span> Убийство с сохранением вещей → бан 6 ч – 2 дня + возврат вещей</div>
+                    <div class="rule-title"><span class="rule-number">1.10.4.</span> Убийство с утерей вещей → бан 1–14 дней + откат пострадавшему</div>
+                    <div class="rule-title"><span class="rule-number">1.10.5.</span> Нападение на сотрудника администрации при исполнении → бан 7 дней</div>
+                    <div class="rule-title"><span class="rule-number">1.10.6.</span> Разбойное нападение с целью получения ресурсов → вечный бан</div>
+                    <div class="rule-title"><span class="rule-number">1.10.7.</span> Массовые убийства (в т.ч. на мероприятиях) → вечный бан</div>
                 </div>
-                <div class="rule-desc">
-                    Администрация всегда на связи. Не мешай другим игрокам, не мешай стройкам, не отвлекай от игры намеренно.
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.11.</span> Помехи работе администрации</div>
+                <div style="margin-left: 1rem; margin-top: 0.5rem;">
+                    <div class="rule-title"><span class="rule-number">1.11.1.</span> Заведомо ложный вызов; провокации → бан 3–12 ч</div>
+                    <div class="rule-title"><span class="rule-number">1.11.2.</span> Создание препятствий и помех администраторам → бан 1 день</div>
+                    <div class="rule-title"><span class="rule-number">1.11.3.</span> Введение администрации в заблуждение; клевета → бан 2 дня</div>
                 </div>
-                <div class="rule-detail">👑 Решение спорных ситуаций — за администратором.</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.12.</span> <span class="rule-text">Нарушение порядка на общественных мероприятиях, создание помех организаторам и участникам</span></div>
+                <div class="rule-punishment">⚡ Наказание: бан до 3 часов</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.13.</span> <span class="rule-text">Навязчивое поведение, преследование по карте, «сталкинг»</span></div>
+                <div class="rule-punishment">⚡ Наказание: бан 1 час</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.14.</span> <span class="rule-text">Причинение материального ущерба через копирование и распространение чужой интеллектуальной собственности (карты, мап-арты, книги)</span></div>
+                <div class="rule-punishment">⚡ Наказание: предупреждение + штраф</div>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title"><span class="rule-number">1.15.</span> <span class="rule-text">Систематическое нарушение/игнорирование пунктов правил территорий; постоянные проникновения на чужие базы для провокации</span></div>
+                <div class="rule-punishment">⚡ Наказание: бан 2–5 дней</div>
             </div>
         </div>
 
+        <!-- ========== 2. ОБЩЕНИЕ ========== -->
+        <div class="rule-category">💬 2. Общение</div>
+        <div class="rule-section">
+            <div class="rule-item"><span class="rule-number">2.1.</span> Чрезмерное использование нецензурной лексики → предупреждение или мут 10–30 мин</div>
+            <div class="rule-item"><span class="rule-number">2.2.</span> Злоупотребление капсом и нечитаемыми символами → мут 10–30 мин</div>
+            <div class="rule-item"><span class="rule-number">2.3.</span> Спам сообщениями в чат (3+ подряд) → мут 5 мин – 1 час</div>
+            <div class="rule-item"><span class="rule-number">2.3.1.</span> Спам об убийстве игрока → предупреждение</div>
+            <div class="rule-item"><span class="rule-number">2.3.2.</span> Спам о входе/выходе на сервер → бан 5 мин</div>
+            <div class="rule-item"><span class="rule-number">2.3.3.</span> Спам в голосовом чате (громкие звуки, изменённый голос) → предупреждение → мут голосового чата 30–60 мин</div>
+            <div class="rule-item"><span class="rule-number">2.4.</span> Намеренное введение игроков в заблуждение → мут/бан 1–6 ч</div>
+            <div class="rule-item"><span class="rule-number">2.4.1.</span> Самостоятельная установка штрафов → бан до 3 ч</div>
+            <div class="rule-item"><span class="rule-number">2.5.</span> Грубые оскорбления личности/родственников; провокации; разведение срачей; клевета (в т.ч. в ЛС) → мут 6 ч – 2 дня</div>
+            <div class="rule-item"><span class="rule-number">2.6.</span> Демонстрация атрибутики нацистских, экстремистских, террористических организаций → бан 5 дней + снос атрибутики</div>
+            <div class="rule-item"><span class="rule-number">2.7.</span> Поддержка/сочувствие игрокам/организациям, нанёсшим серьёзный вред проекту → бан 7–14 дней</div>
+            <div class="rule-item"><span class="rule-number">2.8.</span> Провокационное, неадекватное, агрессивное, вызывающее, антисоциальное поведение → бан 5–7 дней → вечный бан</div>
+            <div class="rule-item"><span class="rule-number">2.9.</span> Поиск/публикация личных данных; сталкинг; угрозы; травля → вечный бан</div>
+            <div class="rule-item"><span class="rule-number">2.10.</span> Реклама сторонних серверов, сообществ, сайтов, услуг (в т.ч. в ЛС) → вечный бан</div>
+        </div>
+
         <div class="ban-note">
-            📜 <strong>Сроки наказаний</strong> : от 1 дня до постоянного бана.  
-            Решение принимает администратор FoggyLand в зависимости от тяжести нарушения.  
-            Гриферство, читы, неуважение, реклама, кража = быстрая и жёсткая реакция.
+            📜 <strong>Важно:</strong> Все наказания выносятся администрацией сервера.  
+            Сроки могут быть изменены в зависимости от тяжести нарушения и поведения игрока.  
+            ⚖️ Решение администратора — окончательное.
         </div>
 
         <hr />
         <div class="footer-note">
-            🔹 IP-сервера: <strong>foggyland.ru</strong>  (или уточняй в Discord)<br>
-            ✨ Ванильный опыт, дружеское сообщество. Строим, исследуем, общаемся в голосе. Добро пожаловать!
+            🔹 IP сервера: <strong>foggyland.ru</strong><br>
+            ✨ Ванильный опыт, честная игра, дружеское сообщество. Приятной игры!
         </div>
     </div>
 </div>
