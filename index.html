@@ -1,351 +1,616 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FoggyLand — Правила сервера</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>FoggyLand — Правила сервера 🍃</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #f9f3b0 0%, #c6e9a3 100%);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            color: #1e2a1f;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #2d3e1f;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      color: #1e2a1f;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    /* ── Живой туманный фон с лесом ── */
+    .fog-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: linear-gradient(170deg, #3a5a2a 0%, #58803a 25%, #7fa052 50%, #a7b87e 75%, #c8c98a 100%);
+      overflow: hidden;
+    }
 
-        .rules-card {
-            background: rgba(255, 255, 245, 0.92);
-            border-radius: 2rem;
-            padding: 2rem 2rem 2.5rem;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(100, 80, 20, 0.3);
-        }
+    /* Туманные облака */
+    .fog-cloud {
+      position: absolute;
+      background: radial-gradient(ellipse at center, rgba(255, 255, 240, 0.3) 0%, rgba(220, 230, 180, 0.08) 70%, transparent 90%);
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: fogFloat 30s infinite alternate ease-in-out;
+    }
 
-        h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            text-align: center;
-            background: linear-gradient(135deg, #3b6e2b, #aa8e1a);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
+    .fog-cloud:nth-child(1) { width: 750px; height: 320px; top: 2%; left: -8%; animation-duration: 34s; }
+    .fog-cloud:nth-child(2) { width: 620px; height: 380px; bottom: 8%; right: -4%; animation-duration: 40s; animation-delay: -6s; background: radial-gradient(ellipse at center, rgba(240, 245, 210, 0.35) 0%, rgba(200, 215, 150, 0.1) 70%, transparent 90%); }
+    .fog-cloud:nth-child(3) { width: 580px; height: 300px; top: 35%; left: 28%; animation-duration: 44s; animation-delay: -14s; }
+    .fog-cloud:nth-child(4) { width: 520px; height: 270px; bottom: 22%; left: 48%; animation-duration: 36s; animation-delay: -22s; background: radial-gradient(ellipse at center, rgba(255, 250, 200, 0.28) 0%, rgba(210, 200, 130, 0.08) 70%, transparent 90%); }
+    .fog-cloud:nth-child(5) { width: 680px; height: 340px; top: 55%; right: 18%; animation-duration: 42s; animation-delay: -10s; }
 
-        .tagline {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #3a5727;
-            border-bottom: 2px dashed #c2b56b;
-            display: inline-block;
-            width: auto;
-            margin: 0 auto 1.8rem auto;
-            padding-bottom: 0.4rem;
-        }
+    @keyframes fogFloat {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.45; }
+      30% { transform: translate(3%, -2%) scale(1.06); opacity: 0.75; }
+      60% { transform: translate(-2%, 1.5%) scale(0.96); opacity: 0.55; }
+      100% { transform: translate(2.5%, 0.8%) scale(1.08); opacity: 0.7; }
+    }
 
-        .badge {
-            background: #c0e0a0;
-            padding: 0.2rem 0.8rem;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #2c4822;
-            display: inline-block;
-            margin: 0 0.3rem 0.6rem 0.3rem;
-        }
+    /* ── Листва (умеренное количество) ── */
+    .leaf {
+      position: absolute;
+      opacity: 0.65;
+      pointer-events: none;
+      animation: leafFall linear infinite;
+      filter: drop-shadow(0 0 4px rgba(30, 40, 10, 0.2));
+    }
 
-        .rule-section {
-            margin: 2rem 0;
-        }
+    .leaf svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
-        .rule-category {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #3b6e2b;
-            margin: 1.5rem 0 1rem 0;
-            padding-bottom: 0.3rem;
-            border-bottom: 2px solid #c2b56b;
-        }
+    @keyframes leafFall {
+      0% {
+        transform: translate(0, -10vh) rotate(0deg) scale(1);
+        opacity: 0;
+      }
+      5% {
+        opacity: 0.7;
+      }
+      50% {
+        transform: translate(40px, 55vh) rotate(200deg) scale(1.1);
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translate(-20px, 105vh) rotate(380deg) scale(0.8);
+        opacity: 0;
+      }
+    }
 
-        .rule-item {
-            background: #fefce8;
-            border-left: 6px solid #a6c86e;
-            padding: 0.8rem 1.2rem;
-            border-radius: 1rem;
-            margin-bottom: 0.8rem;
-            transition: all 0.2s;
-        }
+    @keyframes leafSway {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(12px); }
+      75% { transform: translateX(-10px); }
+    }
 
-        .rule-item:hover {
-            transform: translateX(4px);
-            background: #fffff0;
-            border-left-color: #e3b43c;
-        }
+    /* Мерцающие светлячки */
+    .firefly {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: #f9f3b0;
+      border-radius: 50%;
+      box-shadow: 0 0 16px 7px rgba(250, 240, 120, 0.75);
+      animation: fireflyDrift 22s infinite ease-in-out;
+    }
 
-        .rule-title {
-            font-weight: 800;
-            font-size: 1rem;
-            color: #2c4723;
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
+    .firefly:nth-child(16) { top: 12%; left: 18%; animation-duration: 24s; }
+    .firefly:nth-child(17) { top: 72%; left: 68%; animation-duration: 27s; animation-delay: -5s; }
+    .firefly:nth-child(18) { top: 42%; left: 78%; animation-duration: 25s; animation-delay: -10s; }
+    .firefly:nth-child(19) { top: 82%; left: 12%; animation-duration: 30s; animation-delay: -15s; }
+    .firefly:nth-child(20) { top: 22%; left: 52%; animation-duration: 22s; animation-delay: -19s; }
 
-        .rule-number {
-            color: #8b6b2a;
-            font-family: monospace;
-            font-weight: 700;
-        }
+    @keyframes fireflyDrift {
+      0% { transform: translate(0, 0) scale(0.6); opacity: 0.15; }
+      20% { transform: translate(28px, -35px) scale(1.2); opacity: 0.95; }
+      40% { transform: translate(-18px, -65px) scale(0.75); opacity: 0.4; }
+      60% { transform: translate(32px, -25px) scale(1.1); opacity: 0.85; }
+      80% { transform: translate(-22px, -50px) scale(0.55); opacity: 0.25; }
+      100% { transform: translate(12px, -75px) scale(0.85); opacity: 0.65; }
+    }
 
-        .rule-text {
-            color: #2d3e26;
-            line-height: 1.45;
-        }
+    /* ── Основной контейнер ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
 
-        .rule-punishment {
-            margin-top: 0.3rem;
-            font-size: 0.8rem;
-            color: #a52a1a;
-            background: #fff2cf;
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-            font-weight: 500;
-        }
+    .rules-card {
+      background: rgba(255, 255, 245, 0.88);
+      border-radius: 2.5rem;
+      padding: 2.5rem 2.2rem 2.8rem;
+      box-shadow: 0 30px 55px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(100, 80, 20, 0.3);
+      border: 1px solid rgba(160, 130, 50, 0.4);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: box-shadow 0.4s ease, transform 0.3s ease;
+      animation: cardRise 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      opacity: 0;
+      transform: translateY(25px);
+    }
 
-        .rule-note {
-            margin-top: 0.3rem;
-            font-size: 0.75rem;
-            color: #6f5e2e;
-            background: #f3f7e6;
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 20px;
-        }
+    @keyframes cardRise {
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .ban-note {
-            background: #fff2cf;
-            padding: 1rem 1.5rem;
-            border-radius: 1.2rem;
-            margin: 1.5rem 0;
-            font-weight: 500;
-            text-align: center;
-            border: 1px solid #e6c88a;
-        }
+    .rules-card:hover {
+      box-shadow: 0 38px 60px -10px rgba(30, 20, 0, 0.45), 0 0 0 1px rgba(180, 140, 40, 0.5);
+    }
 
-        .footer-note {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.85rem;
-            color: #4f5d40;
-            background: rgba(235, 245, 210, 0.7);
-            padding: 0.8rem;
-            border-radius: 2rem;
-        }
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      text-align: center;
+      background: linear-gradient(135deg, #3b6e2b, #aa8e1a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.5px;
+      animation: titleShine 3s infinite alternate;
+      filter: drop-shadow(0 0 8px rgba(200, 180, 60, 0.5));
+    }
 
-        hr {
-            margin: 1rem 0;
-            border: 0;
-            height: 2px;
-            background: linear-gradient(to right, #e1c16e, transparent);
-        }
+    @keyframes titleShine {
+      0% { filter: drop-shadow(0 0 6px rgba(210, 190, 70, 0.5)); }
+      100% { filter: drop-shadow(0 0 18px rgba(240, 210, 80, 0.9)); }
+    }
 
-        @media (max-width: 768px) {
-            .rules-card {
-                padding: 1rem;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-            .rule-category {
-                font-size: 1.3rem;
-            }
-            .rule-title {
-                font-size: 0.9rem;
-            }
-            .rule-text {
-                font-size: 0.85rem;
-            }
-        }
-    </style>
+    .tagline {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #3a5727;
+      border-bottom: 2px dashed #c2b56b;
+      display: inline-block;
+      width: auto;
+      margin: 0 auto 1.8rem auto;
+      padding-bottom: 0.4rem;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .tagline:hover {
+      color: #5b8238;
+      border-bottom-color: #e0b84c;
+    }
+
+    .badge {
+      background: #c0e0a0;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #2c4822;
+      display: inline-block;
+      margin: 0 0.3rem 0.7rem 0.3rem;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      animation: badgePop 0.6s ease-out;
+      letter-spacing: 0.3px;
+    }
+
+    @keyframes badgePop {
+      0% { transform: scale(0.8); opacity: 0; }
+      60% { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .badge:hover {
+      background: #d4ecb0;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(80, 80, 20, 0.2);
+    }
+
+    .rule-section {
+      margin: 1.8rem 0;
+    }
+
+    .rule-category {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #3b6e2b;
+      margin: 1.8rem 0 1rem 0;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid #c2b56b;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.25s;
+      animation: slideInLeft 0.6s ease backwards;
+    }
+
+    @keyframes slideInLeft {
+      0% { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .rule-category:hover {
+      color: #4f852f;
+      border-bottom-color: #daa520;
+      transform: translateX(6px);
+    }
+
+    .rule-item {
+      background: #fefce8;
+      border-left: 7px solid #a6c86e;
+      padding: 0.9rem 1.3rem;
+      border-radius: 1.2rem;
+      margin-bottom: 0.9rem;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      animation: fadeSlideUp 0.5s ease backwards;
+      animation-delay: calc(var(--item-index, 0) * 0.03s + 0.1s);
+    }
+
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .rule-item:hover {
+      transform: translateX(8px) scale(1.02);
+      background: #fffff3;
+      border-left-color: #e3b43c;
+      box-shadow: 0 14px 28px -10px rgba(120, 90, 20, 0.22);
+    }
+
+    .rule-title {
+      font-weight: 800;
+      font-size: 1rem;
+      color: #2c4723;
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .rule-number {
+      color: #8b6b2a;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-weight: 700;
+      background: rgba(255,235,160,0.55);
+      padding: 0.15rem 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .rule-item:hover .rule-number {
+      background: #ffe8a0;
+    }
+
+    .rule-text {
+      color: #2d3e26;
+      line-height: 1.5;
+    }
+
+    .rule-punishment {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: #a52a1a;
+      background: #fff2cf;
+      display: inline-block;
+      padding: 0.25rem 0.9rem;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: all 0.25s;
+      border: 1px solid rgba(200,140,40,0.25);
+      letter-spacing: 0.2px;
+    }
+
+    .rule-punishment:hover {
+      background: #ffe8aa;
+      border-color: #c07a20;
+      transform: scale(1.02);
+    }
+
+    .rule-note {
+      margin-top: 0.4rem;
+      font-size: 0.75rem;
+      color: #6f5e2e;
+      background: #f3f7e6;
+      display: inline-block;
+      padding: 0.25rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid #d4daa8;
+    }
+
+    .ban-note {
+      background: #fff2cf;
+      padding: 1.2rem 1.6rem;
+      border-radius: 1.4rem;
+      margin: 2rem 0;
+      font-weight: 500;
+      text-align: center;
+      border: 1px solid #e6c88a;
+      box-shadow: 0 12px 22px rgba(180, 140, 30, 0.18);
+      transition: transform 0.25s, box-shadow 0.3s;
+      animation: softPulse 3.5s infinite alternate;
+    }
+
+    @keyframes softPulse {
+      0% { box-shadow: 0 8px 18px rgba(180, 140, 30, 0.1); }
+      100% { box-shadow: 0 16px 30px rgba(200, 155, 40, 0.3); }
+    }
+
+    .ban-note:hover {
+      transform: scale(1.02);
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 2.2rem;
+      font-size: 0.85rem;
+      color: #4f5d40;
+      background: rgba(235, 245, 210, 0.75);
+      padding: 0.9rem;
+      border-radius: 2rem;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .footer-note:hover {
+      background: rgba(245, 250, 220, 0.85);
+      transform: translateY(-2px);
+    }
+
+    hr {
+      margin: 1.2rem 0;
+      border: 0;
+      height: 2px;
+      background: linear-gradient(to right, #e1c16e, transparent);
+    }
+
+    .sub-item {
+      margin-left: 1.2rem;
+      margin-top: 0.5rem;
+      transition: all 0.25s;
+    }
+
+    @media (max-width: 768px) {
+      .rules-card { padding: 1.2rem; }
+      h1 { font-size: 2.2rem; }
+      .rule-category { font-size: 1.4rem; }
+      .fog-cloud { opacity: 0.45; }
+      .leaf { opacity: 0.4; }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <div class="rules-card">
-        <h1>🌫️ FOGGYLAND</h1>
-        <div style="text-align: center;">
-            <div class="tagline">🍃 ванильный SMP • честная игра • уютная атмосфера</div>
-        </div>
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <span class="badge">🤝 никаких донат-привилегий</span>
-            <span class="badge">🎙️ голосовой чат</span>
-            <span class="badge">⚔️ PvP по желанию</span>
-        </div>
-
-        <!-- ========== 1. ИГРОВОЙ ПРОЦЕСС ========== -->
-        <div class="rule-category">📌 1. Игровой процесс</div>
-        <div class="rule-section">
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.1.</span> <span class="rule-text">Использование и хранение запрещенного ПО</span></div>
-                <div class="rule-note">Исключение: разрешено хранение, если ПО работает только на версии, несовместимой с версией сервера.</div>
-                <div class="rule-item" style="margin-left: 1rem; margin-top: 0.5rem;">
-                    <div class="rule-title"><span class="rule-number">1.1.1.</span> <span class="rule-text">Использование и хранение читов и чит-клиентов</span></div>
-                    <div class="rule-punishment">⚡ Наказание: вечный бан</div>
-                </div>
-                <div class="rule-item" style="margin-left: 1rem; margin-top: 0.5rem;">
-                    <div class="rule-title"><span class="rule-number">1.1.2.</span> <span class="rule-text">Использование и хранение иного запрещённого ПО</span></div>
-                    <div class="rule-punishment">⚡ Наказание: удаление ПО (блокировка доступа) либо бан от 3 до 7 дней</div>
-                </div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.2.</span> <span class="rule-text">Причинение массового ущерба; бандитизм; многократные грабежи; разбойные нападения на базы (гриферство); подготовка и озвучивание намерений об этом</span></div>
-                <div class="rule-punishment">⚡ Наказание: вечный бан + возмещение ущерба (откат)</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.3.</span> <span class="rule-text">Воровство; разрушение чужих строений; порча ландшафта; убийство чужих мобов; вандализм; иное причинение ущерба (не злостного/массового характера)</span></div>
-                <div class="rule-punishment">⚡ Наказание: штраф (возврат/компенсация) + бан от 1 до 14 дней</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.4.</span> <span class="rule-text">Дюп; багоюзинг; использование брешей в плагинах/ядре/Minecraft; участие в схемах получения нелегальных ресурсов</span></div>
-                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
-                <div class="rule-note">Исключение: дюп зажжённых ТНТ (в виде сущностей)</div>
-            </div>
-            <div class="rule-item" style="margin-left: 1rem;">
-                <div class="rule-title"><span class="rule-number">1.4.1.</span> <span class="rule-text">Намеренное замалчивание известной уязвимости (соучастие)</span></div>
-                <div class="rule-punishment">⚡ Наказание: бан 7 дней</div>
-            </div>
-            <div class="rule-item" style="margin-left: 1rem;">
-                <div class="rule-title"><span class="rule-number">1.4.2.</span> <span class="rule-text">Использование и хранение дюпанных вещей (при известном происхождении)</span></div>
-                <div class="rule-punishment">⚡ Наказание: бан 14 дней</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.5.</span> <span class="rule-text">Покушение на стабильность работы сервера; организация подрывной деятельности/рейдов; взлом аккаунтов; DDoS-атаки и подобное</span></div>
-                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.6.</span> <span class="rule-text">Строительство «лаг-машин»</span></div>
-                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
-            </div>
-            <div class="rule-item" style="margin-left: 1rem;">
-                <div class="rule-title"><span class="rule-number">1.6.1.</span> <span class="rule-text">Накапливание большого количества сущностей; строительство/прогрузка тяжёлых редстоун-схем, вызывающих нагрузку (без цели навредить)</span></div>
-                <div class="rule-punishment">⚡ Наказание: предупреждение или бан 1–3 дня + устранение причины лагов</div>
-            </div>
-            <div class="rule-item" style="margin-left: 1rem;">
-                <div class="rule-title"><span class="rule-number">1.6.2.</span> <span class="rule-text">Прогрузка большого количества сущностей или тяжёлых редстоун-схем в AFK-режиме при TPS &lt; 17</span></div>
-                <div class="rule-punishment">⚡ Наказание: предупреждение или бан 1–3 часа</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.7.</span> <span class="rule-text">Регистрация, покупка и передача твинков (вторых аккаунтов); постоянная игра с неосновного аккаунта</span></div>
-                <div class="rule-punishment">⚡ Наказание: вечный бан основного аккаунта и всех твинков</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.8.</span> <span class="rule-text">Вычисление, использование и распространение сида игрового мира</span></div>
-                <div class="rule-punishment">⚡ Наказание: вечный бан</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.9.</span> <span class="rule-text">Любая внутриигровая коммерческая деятельность, связанная с реальными деньгами</span></div>
-                <div class="rule-punishment">⚡ Наказание: бан от 14 дней</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.10.</span> <span class="rule-text">Нападение на игрока (PvP только по взаимному согласию)</span></div>
-                <div class="rule-punishment">⚡ Наказание: по подпунктам</div>
-                <div style="margin-left: 1rem; margin-top: 0.5rem;">
-                    <div class="rule-title"><span class="rule-number">1.10.1.</span> Непредусмотренное PvP на общественных мероприятиях/местах скопления → предупреждение или бан до 3 ч</div>
-                    <div class="rule-title"><span class="rule-number">1.10.2.</span> Нанесение урона без согласия → бан до 24 ч</div>
-                    <div class="rule-title"><span class="rule-number">1.10.2.1.</span> Намеренное покушение на убийство; снос тотема → бан 12–24 ч</div>
-                    <div class="rule-title"><span class="rule-number">1.10.3.</span> Убийство с сохранением вещей → бан 6 ч – 2 дня + возврат вещей</div>
-                    <div class="rule-title"><span class="rule-number">1.10.4.</span> Убийство с утерей вещей → бан 1–14 дней + откат пострадавшему</div>
-                    <div class="rule-title"><span class="rule-number">1.10.5.</span> Нападение на сотрудника администрации при исполнении → бан 7 дней</div>
-                    <div class="rule-title"><span class="rule-number">1.10.6.</span> Разбойное нападение с целью получения ресурсов → вечный бан</div>
-                    <div class="rule-title"><span class="rule-number">1.10.7.</span> Массовые убийства (в т.ч. на мероприятиях) → вечный бан</div>
-                </div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.11.</span> Помехи работе администрации</div>
-                <div style="margin-left: 1rem; margin-top: 0.5rem;">
-                    <div class="rule-title"><span class="rule-number">1.11.1.</span> Заведомо ложный вызов; провокации → бан 3–12 ч</div>
-                    <div class="rule-title"><span class="rule-number">1.11.2.</span> Создание препятствий и помех администраторам → бан 1 день</div>
-                    <div class="rule-title"><span class="rule-number">1.11.3.</span> Введение администрации в заблуждение; клевета → бан 2 дня</div>
-                </div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.12.</span> <span class="rule-text">Нарушение порядка на общественных мероприятиях, создание помех организаторам и участникам</span></div>
-                <div class="rule-punishment">⚡ Наказание: бан до 3 часов</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.13.</span> <span class="rule-text">Навязчивое поведение, преследование по карте, «сталкинг»</span></div>
-                <div class="rule-punishment">⚡ Наказание: бан 1 час</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.14.</span> <span class="rule-text">Причинение материального ущерба через копирование и распространение чужой интеллектуальной собственности (карты, мап-арты, книги)</span></div>
-                <div class="rule-punishment">⚡ Наказание: предупреждение + штраф</div>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title"><span class="rule-number">1.15.</span> <span class="rule-text">Систематическое нарушение/игнорирование пунктов правил территорий; постоянные проникновения на чужие базы для провокации</span></div>
-                <div class="rule-punishment">⚡ Наказание: бан 2–5 дней</div>
-            </div>
-        </div>
-
-        <!-- ========== 2. ОБЩЕНИЕ ========== -->
-        <div class="rule-category">💬 2. Общение</div>
-        <div class="rule-section">
-            <div class="rule-item"><span class="rule-number">2.1.</span> Чрезмерное использование нецензурной лексики → предупреждение или мут 10–30 мин</div>
-            <div class="rule-item"><span class="rule-number">2.2.</span> Злоупотребление капсом и нечитаемыми символами → мут 10–30 мин</div>
-            <div class="rule-item"><span class="rule-number">2.3.</span> Спам сообщениями в чат (3+ подряд) → мут 5 мин – 1 час</div>
-            <div class="rule-item"><span class="rule-number">2.3.1.</span> Спам об убийстве игрока → предупреждение</div>
-            <div class="rule-item"><span class="rule-number">2.3.2.</span> Спам о входе/выходе на сервер → бан 5 мин</div>
-            <div class="rule-item"><span class="rule-number">2.3.3.</span> Спам в голосовом чате (громкие звуки, изменённый голос) → предупреждение → мут голосового чата 30–60 мин</div>
-            <div class="rule-item"><span class="rule-number">2.4.</span> Намеренное введение игроков в заблуждение → мут/бан 1–6 ч</div>
-            <div class="rule-item"><span class="rule-number">2.4.1.</span> Самостоятельная установка штрафов → бан до 3 ч</div>
-            <div class="rule-item"><span class="rule-number">2.5.</span> Грубые оскорбления личности/родственников; провокации; разведение срачей; клевета (в т.ч. в ЛС) → мут 6 ч – 2 дня</div>
-            <div class="rule-item"><span class="rule-number">2.6.</span> Демонстрация атрибутики нацистских, экстремистских, террористических организаций → бан 5 дней + снос атрибутики</div>
-            <div class="rule-item"><span class="rule-number">2.7.</span> Поддержка/сочувствие игрокам/организациям, нанёсшим серьёзный вред проекту → бан 7–14 дней</div>
-            <div class="rule-item"><span class="rule-number">2.8.</span> Провокационное, неадекватное, агрессивное, вызывающее, антисоциальное поведение → бан 5–7 дней → вечный бан</div>
-            <div class="rule-item"><span class="rule-number">2.9.</span> Поиск/публикация личных данных; сталкинг; угрозы; травля → вечный бан</div>
-            <div class="rule-item"><span class="rule-number">2.10.</span> Реклама сторонних серверов, сообществ, сайтов, услуг (в т.ч. в ЛС) → вечный бан</div>
-        </div>
-
-        <div class="ban-note">
-            📜 <strong>Важно:</strong> Все наказания выносятся администрацией сервера.  
-            Сроки могут быть изменены в зависимости от тяжести нарушения и поведения игрока.  
-            ⚖️ Решение администратора — окончательное.
-        </div>
-
-        <hr />
-        <div class="footer-note">
-            🔹 IP сервера: <strong>foggyland.ru</strong><br>
-            ✨ Ванильный опыт, честная игра, дружеское сообщество. Приятной игры!
-        </div>
-    </div>
+<!-- Живой туманный фон с листвой -->
+<div class="fog-background" id="fogBackground">
+  <div class="fog-cloud"></div>
+  <div class="fog-cloud"></div>
+  <div class="fog-cloud"></div>
+  <div class="fog-cloud"></div>
+  <div class="fog-cloud"></div>
+  <!-- Листья будут добавлены через JS -->
+  <div class="firefly"></div>
+  <div class="firefly"></div>
+  <div class="firefly"></div>
+  <div class="firefly"></div>
+  <div class="firefly"></div>
 </div>
+
+<div class="container">
+  <div class="rules-card">
+    <h1>🌫️ FOGGYLAND</h1>
+    <div style="text-align: center;">
+      <div class="tagline">🍃 ванильный SMP • честная игра • уютная атмосфера</div>
+    </div>
+    <div style="text-align: center; margin-bottom: 1.2rem;">
+      <span class="badge">🤝 никаких донат-привилегий</span>
+      <span class="badge">🎙️ голосовой чат</span>
+      <span class="badge">⚔️ PvP по желанию</span>
+    </div>
+
+    <!-- 1. ИГРОВОЙ ПРОЦЕСС -->
+    <div class="rule-category">📌 1. Игровой процесс</div>
+    <div class="rule-section" id="rulesContainer1"></div>
+
+    <!-- 2. ОБЩЕНИЕ -->
+    <div class="rule-category">💬 2. Общение</div>
+    <div class="rule-section" id="rulesContainer2"></div>
+
+    <div class="ban-note">
+      📜 <strong>Важно:</strong> Все наказания выносятся администрацией сервера.<br />
+      Сроки могут быть изменены в зависимости от тяжести нарушения и поведения игрока.<br />
+      ⚖️ Решение администратора — окончательное.
+    </div>
+
+    <hr />
+    <div class="footer-note">
+      🔹 IP сервера: <strong>foggyland.ru</strong><br />
+      ✨ Ванильный опыт, честная игра, дружеское сообщество. Приятной игры!
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ── Генерация листвы ──
+    function createLeaves() {
+      const bg = document.getElementById('fogBackground');
+      if (!bg) return;
+      
+      // Умеренное количество: 14 листьев
+      const leafCount = 14;
+      
+      // Простые SVG-пути листьев (дубовый и берёзовый силуэты)
+      const leafPaths = [
+        // Лист 1 (дубовый)
+        `<path d="M15 2 C10 5 2 12 2 20 C2 28 10 32 15 30 C20 32 28 28 28 20 C28 12 20 5 15 2Z" fill="#6b8c42" opacity="0.8"/><path d="M15 2 L15 28" stroke="#4a6328" stroke-width="0.8" opacity="0.5"/>`,
+        // Лист 2 (кленовый)
+        `<path d="M15 1 L18 8 L25 6 L20 12 L26 16 L19 17 L22 24 L15 20 L8 24 L11 17 L4 16 L10 12 L5 6 L12 8Z" fill="#8b9a3e" opacity="0.75"/>`,
+        // Лист 3 (ивовый)
+        `<path d="M15 2 C8 6 1 14 2 22 C3 28 9 30 15 28 C21 30 27 28 28 22 C29 14 22 6 15 2Z" fill="#7a8f3d" opacity="0.7"/><path d="M15 2 L15 26" stroke="#556b2f" stroke-width="0.7" opacity="0.4"/>`,
+        // Лист 4 (округлый)
+        `<ellipse cx="15" cy="17" rx="13" ry="15" fill="#6d8838" opacity="0.75"/><path d="M15 3 L15 28" stroke="#4f6627" stroke-width="0.7" opacity="0.4"/>`
+      ];
+
+      for (let i = 0; i < leafCount; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'leaf';
+        
+        // Случайный размер
+        const size = 24 + Math.random() * 32;
+        leaf.style.width = size + 'px';
+        leaf.style.height = size + 'px';
+        
+        // Случайная позиция по горизонтали
+        leaf.style.left = Math.random() * 94 + '%';
+        
+        // Случайная длительность падения
+        const duration = 14 + Math.random() * 18;
+        leaf.style.animationDuration = duration + 's';
+        
+        // Случайная задержка
+        leaf.style.animationDelay = Math.random() * duration + 's';
+        
+        // Немного разная скорость покачивания
+        leaf.style.animationName = 'leafFall';
+        
+        // Выбираем случайный силуэт листа
+        const pathIndex = Math.floor(Math.random() * leafPaths.length);
+        leaf.innerHTML = `<svg viewBox="0 0 30 32" xmlns="http://www.w3.org/2000/svg">${leafPaths[pathIndex]}</svg>`;
+        
+        bg.appendChild(leaf);
+      }
+    }
+
+    // ── Данные правил ──
+    const gameRules = [
+      { num: "1.1.", text: "Использование и хранение запрещенного ПО", note: "Исключение: разрешено хранение, если ПО работает только на версии, несовместимой с версией сервера." },
+      { num: "1.1.1.", text: "Использование и хранение читов и чит-клиентов", punishment: "⚡ Наказание: вечный бан", sub: true },
+      { num: "1.1.2.", text: "Использование и хранение иного запрещённого ПО", punishment: "⚡ Наказание: удаление ПО (блокировка доступа) либо бан от 3 до 7 дней", sub: true },
+      { num: "1.2.", text: "Причинение массового ущерба; бандитизм; многократные грабежи; разбойные нападения на базы (гриферство); подготовка и озвучивание намерений об этом", punishment: "⚡ Наказание: вечный бан + возмещение ущерба (откат)" },
+      { num: "1.3.", text: "Воровство; разрушение чужих строений; порча ландшафта; убийство чужих мобов; вандализм; иное причинение ущерба (не злостного/массового характера)", punishment: "⚡ Наказание: штраф (возврат/компенсация) + бан от 1 до 14 дней" },
+      { num: "1.4.", text: "Дюп; багоюзинг; использование брешей в плагинах/ядре/Minecraft; участие в схемах получения нелегальных ресурсов", punishment: "⚡ Наказание: вечный бан", note: "Исключение: дюп зажжённых ТНТ (в виде сущностей)" },
+      { num: "1.4.1.", text: "Намеренное замалчивание известной уязвимости (соучастие)", punishment: "⚡ Наказание: бан 7 дней", sub: true },
+      { num: "1.4.2.", text: "Использование и хранение дюпанных вещей (при известном происхождении)", punishment: "⚡ Наказание: бан 14 дней", sub: true },
+      { num: "1.5.", text: "Покушение на стабильность работы сервера; организация подрывной деятельности/рейдов; взлом аккаунтов; DDoS-атаки и подобное", punishment: "⚡ Наказание: вечный бан" },
+      { num: "1.6.", text: "Строительство «лаг-машин»", punishment: "⚡ Наказание: вечный бан" },
+      { num: "1.6.1.", text: "Накапливание большого количества сущностей; строительство/прогрузка тяжёлых редстоун-схем, вызывающих нагрузку (без цели навредить)", punishment: "⚡ Наказание: предупреждение или бан 1–3 дня + устранение причины лагов", sub: true },
+      { num: "1.6.2.", text: "Прогрузка большого количества сущностей или тяжёлых редстоун-схем в AFK-режиме при TPS < 17", punishment: "⚡ Наказание: предупреждение или бан 1–3 часа", sub: true },
+      { num: "1.7.", text: "Регистрация, покупка и передача твинков (вторых аккаунтов); постоянная игра с неосновного аккаунта", punishment: "⚡ Наказание: вечный бан основного аккаунта и всех твинков" },
+      { num: "1.8.", text: "Вычисление, использование и распространение сида игрового мира", punishment: "⚡ Наказание: вечный бан" },
+      { num: "1.9.", text: "Любая внутриигровая коммерческая деятельность, связанная с реальными деньгами", punishment: "⚡ Наказание: бан от 14 дней" },
+      { num: "1.10.", text: "Нападение на игрока (PvP только по взаимному согласию)", punishment: "⚡ Наказание: по подпунктам" }
+    ];
+
+    const pvpSubRules = [
+      "1.10.1. Непредусмотренное PvP на общественных мероприятиях/местах скопления → предупреждение или бан до 3 ч",
+      "1.10.2. Нанесение урона без согласия → бан до 24 ч",
+      "1.10.2.1. Намеренное покушение на убийство; снос тотема → бан 12–24 ч",
+      "1.10.3. Убийство с сохранением вещей → бан 6 ч – 2 дня + возврат вещей",
+      "1.10.4. Убийство с утерей вещей → бан 1–14 дней + откат пострадавшему",
+      "1.10.5. Нападение на сотрудника администрации при исполнении → бан 7 дней",
+      "1.10.6. Разбойное нападение с целью получения ресурсов → вечный бан",
+      "1.10.7. Массовые убийства (в т.ч. на мероприятиях) → вечный бан"
+    ];
+
+    const moreGameRules = [
+      { num: "1.11.", text: "Помехи работе администрации" },
+      { num: "1.11.1.", text: "Заведомо ложный вызов; провокации → бан 3–12 ч", sub: true },
+      { num: "1.11.2.", text: "Создание препятствий и помех администраторам → бан 1 день", sub: true },
+      { num: "1.11.3.", text: "Введение администрации в заблуждение; клевета → бан 2 дня", sub: true },
+      { num: "1.12.", text: "Нарушение порядка на общественных мероприятиях, создание помех организаторам и участникам", punishment: "⚡ Наказание: бан до 3 часов" },
+      { num: "1.13.", text: "Навязчивое поведение, преследование по карте, «сталкинг»", punishment: "⚡ Наказание: бан 1 час" },
+      { num: "1.14.", text: "Причинение материального ущерба через копирование и распространение чужой интеллектуальной собственности (карты, мап-арты, книги)", punishment: "⚡ Наказание: предупреждение + штраф" },
+      { num: "1.15.", text: "Систематическое нарушение/игнорирование пунктов правил территорий; постоянные проникновения на чужие базы для провокации", punishment: "⚡ Наказание: бан 2–5 дней" }
+    ];
+
+    const communicationRules = [
+      "2.1. Чрезмерное использование нецензурной лексики → предупреждение или мут 10–30 мин",
+      "2.2. Злоупотребление капсом и нечитаемыми символами → мут 10–30 мин",
+      "2.3. Спам сообщениями в чат (3+ подряд) → мут 5 мин – 1 час",
+      "2.3.1. Спам об убийстве игрока → предупреждение",
+      "2.3.2. Спам о входе/выходе на сервер → бан 5 мин",
+      "2.3.3. Спам в голосовом чате (громкие звуки, изменённый голос) → предупреждение → мут голосового чата 30–60 мин",
+      "2.4. Намеренное введение игроков в заблуждение → мут/бан 1–6 ч",
+      "2.4.1. Самостоятельная установка штрафов → бан до 3 ч",
+      "2.5. Грубые оскорбления личности/родственников; провокации; разведение срачей; клевета (в т.ч. в ЛС) → мут 6 ч – 2 дня",
+      "2.6. Демонстрация атрибутики нацистских, экстремистских, террористических организаций → бан 5 дней + снос атрибутики",
+      "2.7. Поддержка/сочувствие игрокам/организациям, нанёсшим серьёзный вред проекту → бан 7–14 дней",
+      "2.8. Провокационное, неадекватное, агрессивное, вызывающее, антисоциальное поведение → бан 5–7 дней → вечный бан",
+      "2.9. Поиск/публикация личных данных; сталкинг; угрозы; травля → вечный бан",
+      "2.10. Реклама сторонних серверов, сообществ, сайтов, услуг (в т.ч. в ЛС) → вечный бан"
+    ];
+
+    function createRuleItem(rule, index = 0) {
+      const div = document.createElement('div');
+      div.className = 'rule-item' + (rule.sub ? ' sub-item' : '');
+      div.style.setProperty('--item-index', index);
+
+      let html = `<div class="rule-title"><span class="rule-number">${rule.num}</span> <span class="rule-text">${rule.text || rule}</span></div>`;
+      if (rule.punishment) {
+        html += `<div class="rule-punishment">${rule.punishment}</div>`;
+      }
+      if (rule.note) {
+        html += `<div class="rule-note">${rule.note}</div>`;
+      }
+      div.innerHTML = html;
+      return div;
+    }
+
+    function renderRules() {
+      const container1 = document.getElementById('rulesContainer1');
+      const container2 = document.getElementById('rulesContainer2');
+      if (!container1 || !container2) return;
+
+      gameRules.forEach((rule, idx) => {
+        container1.appendChild(createRuleItem(rule, idx));
+      });
+
+      const pvpContainer = document.createElement('div');
+      pvpContainer.className = 'rule-item';
+      pvpContainer.style.marginLeft = '1.2rem';
+      pvpContainer.style.setProperty('--item-index', gameRules.length);
+      let pvpHtml = '';
+      pvpSubRules.forEach((text) => {
+        const parts = text.split('. ');
+        const numPart = parts[0] + '.';
+        const rest = parts.slice(1).join('. ');
+        pvpHtml += `<div class="rule-title" style="margin-bottom:0.35rem;"><span class="rule-number">${numPart}</span> ${rest}</div>`;
+      });
+      pvpContainer.innerHTML = pvpHtml;
+      container1.appendChild(pvpContainer);
+
+      moreGameRules.forEach((rule, idx) => {
+        container1.appendChild(createRuleItem(rule, gameRules.length + 1 + idx));
+      });
+
+      communicationRules.forEach((text, idx) => {
+        const parts = text.split('. ');
+        const num = parts[0] + '.';
+        const desc = parts.slice(1).join('. ');
+        const ruleObj = { num, text: desc };
+        container2.appendChild(createRuleItem(ruleObj, idx));
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      createLeaves();
+      renderRules();
+    });
+  })();
+</script>
 </body>
 </html>
