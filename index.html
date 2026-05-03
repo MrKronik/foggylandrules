@@ -512,18 +512,7 @@
       { num: "1.7.", text: "Регистрация, покупка и передача твинков (вторых аккаунтов); постоянная игра с неосновного аккаунта", punishment: "⚡ Наказание: вечный бан основного аккаунта и всех твинков" },
       { num: "1.8.", text: "Вычисление, использование и распространение сида игрового мира", punishment: "⚡ Наказание: вечный бан" },
       { num: "1.9.", text: "Любая внутриигровая коммерческая деятельность, связанная с реальными деньгами", punishment: "⚡ Наказание: бан от 14 дней" },
-      { num: "1.10.", text: "Нападение на игрока (PvP только по взаимному согласию)", punishment: "⚡ Наказание: по подпунктам" }
-    ];
-
-    const pvpSubRules = [
-      "1.10.1. Непредусмотренное PvP на общественных мероприятиях/местах скопления → предупреждение или бан до 3 ч",
-      "1.10.2. Нанесение урона без согласия → бан до 24 ч",
-      "1.10.2.1. Намеренное покушение на убийство; снос тотема → бан 12–24 ч",
-      "1.10.3. Убийство с сохранением вещей → бан 6 ч – 2 дня + возврат вещей",
-      "1.10.4. Убийство с утерей вещей → бан 1–14 дней + откат пострадавшему",
-      "1.10.5. Нападение на сотрудника администрации при исполнении → бан 7 дней",
-      "1.10.6. Разбойное нападение с целью получения ресурсов → вечный бан",
-      "1.10.7. Массовые убийства (в т.ч. на мероприятиях) → вечный бан"
+      { num: "1.10.", text: "Гриф (разрушение, порча, воровство чужих построек, ландшафта, имущества без согласия владельца)", punishment: "⚡ Наказание: бан 14 дней" }
     ];
 
     const moreGameRules = [
@@ -579,22 +568,8 @@
         container1.appendChild(createRuleItem(rule, idx));
       });
 
-      const pvpContainer = document.createElement('div');
-      pvpContainer.className = 'rule-item';
-      pvpContainer.style.marginLeft = '1.2rem';
-      pvpContainer.style.setProperty('--item-index', gameRules.length);
-      let pvpHtml = '';
-      pvpSubRules.forEach((text) => {
-        const parts = text.split('. ');
-        const numPart = parts[0] + '.';
-        const rest = parts.slice(1).join('. ');
-        pvpHtml += `<div class="rule-title" style="margin-bottom:0.35rem;"><span class="rule-number">${numPart}</span> ${rest}</div>`;
-      });
-      pvpContainer.innerHTML = pvpHtml;
-      container1.appendChild(pvpContainer);
-
       moreGameRules.forEach((rule, idx) => {
-        container1.appendChild(createRuleItem(rule, gameRules.length + 1 + idx));
+        container1.appendChild(createRuleItem(rule, gameRules.length + idx));
       });
 
       communicationRules.forEach((text, idx) => {
