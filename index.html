@@ -889,6 +889,7 @@
             <a href="#sec5" class="nav-link" data-section="sec5">👤 Аккаунт</a>
             <a href="#sec6" class="nav-link" data-section="sec6">🔍 Читы</a>
             <a href="#sec7" class="nav-link" data-section="sec7">✅ Проверка</a>
+            <a href="#sec8" class="nav-link" data-section="sec8">🚫 Гриф</a>
         </nav>
 
         <div class="rules-card" id="rulesCard">
@@ -938,6 +939,10 @@
             <!-- ═══════════════ СЕКЦИЯ 7: ПРОВЕРКА НА ЧИТЫ ═══════════════ -->
             <div class="rule-category" id="sec7"><span class="cat-icon">✅</span> 7. Проверка на читы</div>
             <div class="rule-section" id="rulesContainer7"></div>
+
+            <!-- ═══════════════ СЕКЦИЯ 8: ГРИФЕРСТВО ═══════════════ -->
+            <div class="rule-category" id="sec8"><span class="cat-icon">🚫</span> 8. Гриферство</div>
+            <div class="rule-section" id="rulesContainer8"></div>
 
             <!-- Важное примечание -->
             <div class="ban-note">
@@ -1231,6 +1236,20 @@
                 },
             ];
 
+            // НОВАЯ СЕКЦИЯ 8: ГРИФЕРСТВО
+            const section8Rules = [
+                { num: "8.1", text: "Запрещён гриф (разрушение, перестройка, взрыв) чужой постройки.",
+                    punishment: "⚡ Наказание: блокировка аккаунта на 1 день и откат постройки" },
+                { num: "8.2", text: "Запрещена кража чужих ресурсов (из сундуков, бочек и т.п.) — это тоже гриф.",
+                    punishment: "⚡ Наказание: блокировка аккаунта на 1 день и откат ресурсов" },
+                { num: "8.3", text: "Запрещено строить ловушки (трапки).",
+                    punishment: "⚡ Наказание: блокировка аккаунта на 1 день и снос постройки" },
+                { num: "8.4", text: "Запрещено намеренное выталкивание игрока в AFK с зоны спавна и/или его убийство.",
+                    punishment: "⚡ Наказание: блокировка аккаунта на 1 час" },
+                { num: "8.5", text: "Обход бана запрещён.",
+                    punishment: "⚡ Наказание: блокировка аккаунта навсегда, при повторном нарушении — блокировка по IP навсегда." },
+            ];
+
             // ── Рендер всех секций ──
             function renderAllRules() {
                 const containers = {
@@ -1241,6 +1260,7 @@
                     rulesContainer5: section5Rules,
                     rulesContainer6: section6Rules,
                     rulesContainer7: section7Rules,
+                    rulesContainer8: section8Rules,
                 };
 
                 let globalIndex = 0;
