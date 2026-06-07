@@ -558,6 +558,7 @@
             <a href="#sec5" class="nav-link" data-section="sec5">👤 Аккаунт</a>
             <a href="#sec6" class="nav-link" data-section="sec6">🔍 Читы</a>
             <a href="#sec7" class="nav-link" data-section="sec7">✅ Проверка</a>
+            <a href="#sec8" class="nav-link" data-section="sec8">🚫 Гриф</a>
             <a href="#sec9" class="nav-link" data-section="sec9">🏡 Территория</a>
         </nav>
 
@@ -589,7 +590,9 @@
             <div class="rule-category" id="sec7"><span class="cat-icon">✅</span> 7. Проверка на читы</div>
             <div class="rule-section" id="rulesContainer7"></div>
 
-            <!-- НОВЫЙ РАЗДЕЛ 9. ТЕРРИТОРИЯ -->
+            <div class="rule-category" id="sec8"><span class="cat-icon">🚫</span> 8. Гриферство <span style="font-size:0.7rem;font-weight:400;color:#8b6b2a;">(×2)</span></div>
+            <div class="rule-section" id="rulesContainer8"></div>
+
             <div class="rule-category" id="sec9"><span class="cat-icon">🏡</span> 9. Территория <span style="font-size:0.7rem;font-weight:400;color:#8b6b2a;">(×2)</span></div>
             <div class="rule-section" id="rulesContainer9"></div>
 
@@ -745,6 +748,13 @@
                     { num: "7.7", text: "Запрещено удалять файлы с ПК во время проверки." },
                     { num: "7.8", text: "Запрещён выход из Minecraft во время проверки." },
                     { num: "⚠️", text: "Памятка по проверке", detail: "<strong>Разрешённые программы:</strong><br>• Ocean, AnyDesk, Everything, JournalTrace, PreviousFilesRecovery, ShellBags Analyzer, Process Hacker 2, SystemInformer, USB-Deview, ExecutedProgramsList, WinPrefetchView, LastActivityView, CachedProgramsList, OpenSaveFilesView." }
+                ],
+                rulesContainer8: [
+                    { num: "8.1", text: "Запрещён гриф (разрушение, перестройка, взрыв) чужой постройки.", punishment: "⚡ Наказание: блокировка аккаунта на 1 день и откат постройки." },
+                    { num: "8.2", text: "Запрещена кража чужих ресурсов (из сундуков, бочек и т.п.) — это тоже гриф.", punishment: "⚡ Наказание: блокировка аккаунта на 1 день и откат ресурсов." },
+                    { num: "8.3", text: "Запрещено строить ловушки (трапки).", punishment: "⚡ Наказание: блокировка аккаунта на 1 день и снос постройки." },
+                    { num: "8.4", text: "Запрещено намеренное выталкивание игрока в AFK с зоны спавна и/или его убийство.", punishment: "⚡ Наказание: блокировка аккаунта на 1 час." },
+                    { num: "8.5", text: "Обход бана запрещён.", punishment: "⚡ Наказание: блокировка аккаунта навсегда, при повторном нарушении — блокировка по IP навсегда." }
                 ],
                 rulesContainer9: [
                     { num: "9.1", text: "Отмечать свою территорию табличкой.", note: "Информационное правило." },
